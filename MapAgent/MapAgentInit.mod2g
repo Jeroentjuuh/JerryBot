@@ -1,0 +1,31 @@
+use MapAgent as knowledge.
+use Percepts.MineralGasPercepts.
+%use "../Modules/PerceptsInit".
+
+module MapAgentInit {
+	% if true then PerceptsInit.
+	
+	forall percept(base(IPS, Minerals, Gas, X, Y, RegionId)) do
+		insert(base(IPS, Minerals, Gas, X, Y, RegionId)).
+		
+	forall percept(base(_, Minerals, _, _, _, RegionId), Minerals > 0) do
+		insert(mineralPatches(RegionId, 0)).
+
+	% Store all chokepoint percepts. For ease, they are stored 'both ways'
+	forall percept(chokepoint(X1, Y1, X2, Y2, RegionId1, RegionId2)) do
+		insert(chokepoint(X1, Y1, X2, Y2, RegionId1, RegionId2)) +
+		insert(chokepoint(X2, Y2, X1, Y1, RegionId2, RegionId1)).
+
+	% Store all region percepts
+	forall percept(region(RegionId, CenterX, CenterY, Height, Connections)) do
+		insert(region(RegionId, CenterX, CenterY, Height, Connections)).
+
+	% Store the enemyPlayer pecept
+	if percept(enemyPlayer(Name, Race)) then insert(enemyPlayer(Name, Race)).
+
+	% Store the resources percept
+	if percept(resources(Minerals, Gas, CurrentSupply, TotalSupply)) then
+		insert(resources(Minerals, Gas, CurrentSupply, TotalSupply)).
+
+	if true then MineralGasPercepts.
+}

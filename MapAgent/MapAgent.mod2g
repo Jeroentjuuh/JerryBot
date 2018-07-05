@@ -1,0 +1,55 @@
+use "../Shared" as knowledge.
+use "../knowledge" as knowledge.
+use MapAgent as knowledge.
+use Percepts.MineralGasPercepts.
+use Actions.InitialMiningTask.
+use MapAgentActions.
+
+order = linearall.
+
+module MapAgent {	
+	% if true then PerceptsEvent.
+	if true then MineralGasPercepts.
+	
+	% When we get sent a own base
+	forall (_).sent:(ownBase(Id, X, Y, Region)), not(bel(ownBase(Id, X, Y, Region))) do {
+		% For when we do not yet believe our main base
+		if not(bel(ownMain(_, _, _)))
+			then {
+				% Our first base is our main
+				if true then insert(ownMain(X, Y, Region)).
+				
+				% We insert the naturalexpansion base
+				if bel(chokepoint(X3, Y3, X4, Y4, Region, Region1), base(_, _, G1, X1, Y1, Region1), G1 > 0, distance(X, Y, X1, Y1, D1)),
+					not(bel(chokepoint(_, _, _, _, Region, Region2), base(_, _, G2, X2, Y2, Region2), G2 > 0, distance(X, Y, X2, Y2, D2), D2 < D1))
+					then insert(naturalExpansion(X1, Y1, Region1)) + insert(naturalChokepoint(X3, Y3, X4, Y4))
+						+ debugdraw(X1, Y1, "Natural Expansion") + debugdraw(X3, Y3, "Natural Chokepoint").
+			}
+			
+		% Create the minersMinerals percept as required
+		if not(bel(mineralWorkersRegion(Region, _))) then
+			insert(mineralWorkersRegion(Region, 0)).
+		
+		% We only add ownBases when the nexus is placed on the base spot.
+		if true then insert(ownBase(Id, X, Y, Region)).
+	}
+	
+	% This way we can know all the agents and which friendly ID they belong to.
+	forall (Agent).sent:(agent(Id)) do insert(agent(Id, Agent)).
+	
+	% training probes
+	if percept(friendly(Id, 'Protoss Nexus')), bel(agent(Id, Agent), resources(M, _, _, _), costs('Protoss Probe', CM, _, _, _, _), M >= CM), not(bel(task(Agent, 'train', 'Protoss Probe')))
+		then (Agent).send!(trainOrder('Protoss Probe'))
+			+ insert(task(Agent, 'train', 'Protoss Probe'))
+			+ debugdraw(Id, 'train Protoss Probe').
+
+	% If a agent sent he is training a Unit delete that task.
+	forall (Agent).sent:(trained(Unit)), bel(task(Agent, 'train', Unit))
+		do delete(task(Agent, 'train', Unit)).
+		
+	forall (Agent).sent?(initialWork(ProbeId, RegionId))
+		do insert(sendInitialTask(ProbeId, Agent, RegionId)).
+	
+	forall bel(sendInitialTask(ProbeId, Agent, RegionId), ownBase(_, _, _, RegionId))
+		do InitialMiningTask(ProbeId, Agent, RegionId) + delete(sendInitialTask(ProbeId, Agent, RegionId)).
+}

@@ -1,0 +1,13 @@
+use MapAgent as knowledge.
+
+define debugdraw(Text) with
+	pre{ true }
+	post{ true }
+
+define debugdraw(Id, Text) with
+	pre{ true }
+	post{ true }
+
+define debugdraw(X, Y, Text) with
+	pre{ true }
+	post{ true }

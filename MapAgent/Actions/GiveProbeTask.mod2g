@@ -1,0 +1,30 @@
+use "../MapAgent" as knowledge.
+use "../MapAgentActions".
+order = linearall.
+
+module GiveProbeTask(ProbeId, Agent, NewTask, NewTargetId) {
+	if bel(task(ProbeId, OldTask, OldTarget)) then {
+		% Decrement mineral drones
+		if bel(OldTask == 'gatherMinerals') then {
+			if bel(mineralWorkersRegion(OldTarget, Amount), NewAmount is Amount - 1) then
+				delete(mineralWorkersRegion(OldTarget, Amount)) +
+				insert(mineralWorkersRegion(OldTarget, NewAmount)).
+		}
+		
+		if true then delete(task(ProbeId, OldTask, OldTarget)).
+	}
+	
+	% Increment mineral drones
+	if bel(NewTask == 'gatherMinerals', mineralWorkersRegion(NewTarget, Amount), NewAmount is Amount + 1) then
+		delete(mineralWorkersRegion(NewTarget, Amount)) +
+		insert(mineralWorkersRegion(NewTarget, NewAmount)).
+		
+	% Adopt new task
+	if bel(NewTask == 'gatherMinerals', bestMineralField(NewTargetId, MineralId),
+			mineralFieldWorkers(MineralId, X,Y, Region, N), NewN is N - 1)then
+		delete(mineralFieldWorkers(MineralId, X,Y, Region, N)) +
+		insert(mineralFieldWorkers(MineralId, X,Y, Region, NewN)) +
+		insert(task(ProbeId, NewTask, NewTargetId)) +
+		(Agent).send!(task(NewTask, MineralId))
+		+ debugdraw(ProbeId, "GatherMinerals Sent!").
+}

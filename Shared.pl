@@ -1,0 +1,30 @@
+:-dynamic resources/4,
+	base/6,
+	chokepoint/6,
+	enemyPlayer/2,
+	map/3,
+	ownRace/1,
+	region/5,
+	attacking/2,
+	constructionSite/4,
+	enemy/11,
+	friendly/2,
+	gameframe/1,
+	mineralField/5,
+	nuke/3,
+	researched/1,
+	resources/4,
+	underConstruction/6,
+	vespeneGeyser/5,
+	winner/1,
+	self/2,
+	status/8,
+	order/6,
+	defensiveMatrix/1,
+	queueSize/1,
+	researching/1,
+	unitLoaded/1.
+
+%%% Functions
+% conditions/1, returns the conditions of a unit.
+conditions(Conditions) :- status(_, _, _, Conditions, _, _, _, _).

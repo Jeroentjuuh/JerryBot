@@ -1,0 +1,27 @@
+use ProtossProbe as knowledge.
+use "../Shared" as knowledge.
+use ProtossProbeActions.
+order=linearrandom.
+
+module ProtossProbe {
+	% If we're not doing anything, go gather a random mineral field
+	%if bel(conditions(Conditions), member('idle',Conditions), mineralField(Id, _, _, _, _)) 
+	%	then gather(Id).
+	if goal(task('gatherMinerals', MineralId)) then {
+		if bel(order(Order, TargetId, _, _, _, _)) then {			
+			% Ensure we're mineral locked
+			if bel(Order == 'MoveToMinerals', MineralId \== TargetId) then
+				gather(MineralId)
+				+ sleep(50).
+				
+			% If we're mining correctly, sleep briefly
+			if bel(isMineralOrder(Order)) then
+				sleep(50).
+				
+			% If we're doing something else, switch to gathering minerals
+			if true then
+				gather(MineralId)
+				+ sleep(50).
+		}
+	}
+}

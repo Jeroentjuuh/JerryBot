@@ -1,0 +1,19 @@
+use "../Shared" as knowledge.
+use ProtossNexus as knowledge.
+use "../Modules/PerceptsEvent".
+use ProtossNexusActions.
+
+module ProtossNexusEvent {
+	if true then PerceptsEvent.
+
+	% Being idle as Nexus means we are training.
+	if goal(train(Unit)), bel(queueSize(0))
+		then drop(train(Unit))
+			+ (mapagent).send:(trained(Unit)).
+	
+	if (_).sent!(trainOrder(Unit)), not(goal(train(Unit)))
+		then adopt(train(Unit)).
+
+	%if bel(conditions(Conditions))
+	%	then debugdraw(Conditions).
+}

@@ -1,0 +1,9 @@
+use "../MapAgent" as knowledge.
+use GiveProbeTask.
+
+order = linearall.
+
+module InitialMiningTask(ProbeId, Agent, RegionId) {
+	if 	bel(mineralWorkersRegion(RegionId, Miners), mineralPatches(RegionId, Patches), Miners < Patches * 2) then
+		GiveProbeTask(ProbeId, Agent, 'gatherMinerals', RegionId).
+}

@@ -1,0 +1,56 @@
+use "../Shared" as knowledge.
+
+module PerceptsInit {
+	% base/6
+	forall percept(base(IPS, M, G, X, Y, Region))
+		do insert(base(IPS, M, G, X, Y, Region)).
+
+	% chokepoint/6
+	forall percept(chokepoint(X1, Y1, X2, Y2, Region1, Region2))
+		do insert(chokepoint(X1, Y1, X2, Y2, Region1, Region2))
+		+ insert(chokepoint(X2, Y2, X1, Y1, Region2, Region1)).
+
+	% enemyPlayer/2
+	if percept(enemyPlayer(Name, Race))
+		then insert(enemyPlayer(Name, Race)).
+
+	% map/3
+	if percept(map(Name, Width, Height))
+		then insert(map(Name, Width, Height)).
+
+	% ownRace/1
+	if percept(ownRace(Race))
+		then insert(ownRace(Race)).
+
+	% region/5
+	forall percept(region(Id, CenterX, CenterY, Height, ConnectedRegionsList))
+		do insert(region(Id, CenterX, CenterY, Height, ConnectedRegionsList)).
+
+	% gameframe/1
+	if percept(gameframe(Gameframe))
+		then insert(gameframe(Gameframe)).
+
+	% researched/1
+	if percept(researched(CompletedList))
+		then insert(researched(CompletedList)).
+
+	% resources/4
+	if percept(resources(M, G, CS, TS))
+		then insert(resources(M, G, CS, TS)).
+
+	% self/2
+	if percept(self(Id, Type))
+		then insert(self(Id, Type)).
+
+	% status/8
+	if percept(status(Health, Shield, Energy, Conditions, Orientation, X, Y, Region))
+		then insert(status(Health, Shield, Energy, Conditions, Orientation, X, Y, Region)).
+
+	% order/6
+	if percept(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary))
+		then insert(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)).
+
+	% queueSize/1
+	if percept(queueSize(Size))
+		then insert(queueSize(Size)).
+}

@@ -1,0 +1,99 @@
+use "../Shared" as knowledge.
+
+module PerceptsEvent {
+	% attacking/2
+	forall bel(attacking(Id, TargetId)), not(percept(attacking(Id, TargetId)))
+		do delete(attacking(Id, TargetId)).
+	forall percept(attacking(Id, TargetId)), not(bel(attacking(Id, TargetId)))
+		do insert(attacking(Id, TargetId)).
+
+	% constructionSite/4
+	forall bel(constructionSite(X, Y, Region, InPylonRange)), not(percept(constructionSite(X, Y, Region, InPylonRange)))
+		do delete(constructionSite(X, Y, Region, InPylonRange)).
+	forall percept(constructionSite(X, Y, Region, InPylonRange)), not(bel(constructionSite(X, Y, Region, InPylonRange)))
+		do insert(constructionSite(X, Y, Region, InPylonRange)).
+
+	% enemy/11
+	forall bel(enemy(Id, Type, Health, Shield, Energy, Conditions, Orientation, X, Y, Region, LastUpdated)),
+			not(percept(enemy(Id, Type, Health, Shield, Energy, Conditions, Orientation, X, Y, Region, LastUpdated)))
+		do delete(enemy(Id, Type, Health, Shield, Energy, Conditions, Orientation, X, Y, Region, LastUpdated)).
+	forall percept(enemy(Id, Type, Health, Shield, Energy, Conditions, Orientation, X, Y, Region, LastUpdated)),
+			not(bel(enemy(Id, Type, Health, Shield, Energy, Conditions, Orientation, X, Y, Region, LastUpdated)))
+		do insert(enemy(Id, Type, Health, Shield, Energy, Conditions, Orientation, X, Y, Region, LastUpdated)).
+
+	% friendly/2
+	forall bel(friendly(Id, Type)), not(percept(friendly(Id, Type)))
+		do delete(friendly(Id, Type)).
+	forall percept(friendly(Id, Type)), not(bel(friendly(Id, Type)))
+		do insert(friendly(Id, Type)).
+
+	% gameframe/1
+	if percept(gameframe(Gameframe)), bel(gameframe(OldGameframe))
+		then delete(gameframe(OldGameframe)) + insert(gameframe(Gameframe)).
+
+	% mineralField/5
+	forall bel(mineralField(Id, Resources, X, Y, Region)), not(percept(mineralField(Id, Resources, X, Y, Region)))
+		do delete(mineralField(Id, Resources, X, Y, Region)).
+	forall percept(mineralField(Id, Resources, X, Y, Region)), not(bel(mineralField(Id, Resources, X, Y, Region)))
+		do insert(mineralField(Id, Resources, X, Y, Region)).
+
+	% nuke/3
+	forall bel(nuke(X, Y, Region)), not(percept(nuke(X, Y, Region)))
+		do delete(nuke(X, Y, Region)).
+	forall percept(nuke(X, Y, Region)), not(bel(nuke(X, Y, Region)))
+		do insert(nuke(X, Y, Region)).
+
+	% researched/1
+	if percept(researched(CompletedList)), bel(researched(OldCompletedList))
+		then delete(researched(OldCompletedList)) + insert(researched(CompletedList)).
+
+	% resources/4
+	if percept(resources(M, G, CS, TS)), bel(resources(OldM, OldG, OldCS, OldTS))
+		then delete(resources(OldM, OldG, OldCS, OldTS)) + insert(resources(M, G, CS, TS)).
+
+	% underConstruction/6
+	forall bel(underConstruction(Id, BuilderId, Vitality, X, Y, Region)), not(percept(underConstruction(Id, BuilderId, Vitality, X, Y, Region)))
+		do delete(underConstruction(Id, BuilderId, Vitality, X, Y, Region)).
+	forall percept(underConstruction(Id, BuilderId, Vitality, X, Y, Region)), not(bel(underConstruction(Id, BuilderId, Vitality, X, Y, Region)))
+		do insert(underConstruction(Id, BuilderId, Vitality, X, Y, Region)).
+
+	% vespeneGeyser/5
+	forall bel(vespeneGeyser(Id, Resources, X, Y, Region)), not(percept(vespeneGeyser(Id, Resources, X, Y, Region)))
+		do delete(vespeneGeyser(Id, Resources, X, Y, Region)).
+	forall percept(vespeneGeyser(Id, Resources, X, Y, Region)), not(bel(vespeneGeyser(Id, Resources, X, Y, Region)))
+		do insert(vespeneGeyser(Id, Resources, X, Y, Region)).
+
+	% status/8
+	if percept(status(Health, Shield, Energy, Conditions, Orientation, X, Y, Region)),
+			bel(status(OldHealth, OldShield, OldEnergy, OldConditions, OldOrientation, OldX, OldY, OldRegion))
+		then delete(status(OldHealth, OldShield, OldEnergy, OldConditions, OldOrientation, OldX, OldY, OldRegion))
+			+ insert(status(Health, Shield, Energy, Conditions, Orientation, X, Y, Region)).
+
+	% order/6
+	if percept(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)),
+			bel(order(OldPrimary, OldTargetUnit, OldTargetX, OldTargetY, OldTargetRegion, OldSecondary))
+		then delete(order(OldPrimary, OldTargetUnit, OldTargetX, OldTargetY, OldTargetRegion, OldSecondary))
+			+ insert(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)).
+
+	% defensiveMatrix/1
+	forall bel(defensiveMatrix(Health)), not(percept(defensiveMatrix(Health)))
+		do delete(defensiveMatrix(Health)).
+	forall percept(defensiveMatrix(Health)), not(bel(defensiveMatrix(Health)))
+		do insert(defensiveMatrix(Health)).
+
+	% queueSize/1
+	if percept(queueSize(Size)), bel(queueSize(OldSize))
+		then delete(queueSize(OldSize)) + insert(queueSize(Size)).
+
+	% researching/1
+	forall bel(researching(Type)), not(percept(researching(Type)))
+		do delete(researching(Type)).
+	forall percept(researching(Type)), not(bel(researching(Type)))
+		do insert(researching(Type)).
+
+	% unitLoaded/1
+	forall bel(unitLoaded(Id)), not(percept(unitLoaded(Id)))
+		do delete(unitLoaded(Id)).
+	forall percept(unitLoaded(Id)), not(bel(unitLoaded(Id)))
+		do insert(unitLoaded(Id)).
+}

@@ -1,0 +1,11 @@
+use "../Shared" as knowledge.
+use ProtossProbe as knowledge.
+
+% Only gather from non-empty mineral fields
+define gather(Id) with
+	pre{ true }
+	post{ true }
+	
+define debugdraw(Text) with
+	pre{ true }
+	post{ true }

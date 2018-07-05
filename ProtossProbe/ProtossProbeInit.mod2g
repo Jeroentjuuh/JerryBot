@@ -1,0 +1,16 @@
+use "../Shared" as knowledge.
+use ProtossProbe as knowledge.
+use "../Modules/PerceptsInit".
+
+module ProtossProbeInit {
+	% Give mapagent time to start
+	/*if percept(gameframe(Frame), Frame =< 1, self(Id, _), status(_, _, _, _, _, _, _, RegionId)) then
+			insert(workRequest(Id, RegionId)). */
+
+	if percept(self(Id, _), status(_, _, _, _, _, _, _, RegionId))
+		then (mapagent).send:(agent(Id))
+			+ (mapagent).send?(initialWork(Id, RegionId)).
+			
+	if percept(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary))
+		then insert(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)).
+}
