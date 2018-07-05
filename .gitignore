@@ -1,0 +1,7 @@
+# Eclipse ignores
+.classpath
+.project
+.settings/
+.metadata/
+
+.git
