@@ -1,0 +1,8 @@
+use Nexus as knowledge.
+use NexusActions.
+
+module Nexus {
+	% When we have a goal to train do so.
+	if goal(train(Unit))
+		then train(Unit) + sleep(100).
+}

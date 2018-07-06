@@ -1,5 +1,4 @@
-use "../Shared" as knowledge.
-use "../knowledge" as knowledge.
+use Nexus as knowledge.
 
 % Train a unit of the given type.
 % Checks if we can train this unit and if we have enough minerals, gas and supply to do so.
