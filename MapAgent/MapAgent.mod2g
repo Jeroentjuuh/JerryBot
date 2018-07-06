@@ -1,5 +1,3 @@
-use "../Shared" as knowledge.
-use "../knowledge" as knowledge.
 use MapAgent as knowledge.
 use Percepts.MineralGasPercepts.
 use Actions.InitialMiningTask.
@@ -36,20 +34,16 @@ module MapAgent {
 	
 	% This way we can know all the agents and which friendly ID they belong to.
 	forall (Agent).sent:(agent(Id)) do insert(agent(Id, Agent)).
-	
-	% training probes
-	if percept(friendly(Id, 'Protoss Nexus')), bel(agent(Id, Agent), resources(M, _, _, _), costs('Protoss Probe', CM, _, _, _, _), M >= CM), not(bel(task(Agent, 'train', 'Protoss Probe')))
-		then (Agent).send!(trainOrder('Protoss Probe'))
-			+ insert(task(Agent, 'train', 'Protoss Probe'))
-			+ debugdraw(Id, 'train Protoss Probe').
 
 	% If a agent sent he is training a Unit delete that task.
 	forall (Agent).sent:(trained(Unit)), bel(task(Agent, 'train', Unit))
 		do delete(task(Agent, 'train', Unit)).
-		
+
+	% If an agent needs to start working insert a belief to give him a task
 	forall (Agent).sent?(initialWork(ProbeId, RegionId))
 		do insert(sendInitialTask(ProbeId, Agent, RegionId)).
-	
+
+	% We can only start handing out tasks when we have a base in that region
 	forall bel(sendInitialTask(ProbeId, Agent, RegionId), ownBase(_, _, _, RegionId))
 		do InitialMiningTask(ProbeId, Agent, RegionId) + delete(sendInitialTask(ProbeId, Agent, RegionId)).
 }

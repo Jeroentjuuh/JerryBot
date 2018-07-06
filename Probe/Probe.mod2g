@@ -6,7 +6,7 @@ order=linearrandom.
 module Probe {
 	% For when we have to task to gather minerals from a mineralField
 	if goal(task('gatherMinerals', MineralId)) then {
-		if bel(order(Order, TargetId, _, _, _, _)) then {			
+		if percept(order(Order, TargetId, _, _, _, _)) then {			
 			% Ensure we're mineral locked
 			if bel(Order == 'MoveToMinerals', MineralId \== TargetId) then
 				gather(MineralId)

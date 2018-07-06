@@ -1,10 +1,7 @@
 use MapAgent as knowledge.
 use Percepts.MineralGasPercepts.
-%use "../Modules/PerceptsInit".
 
 module MapAgentInit {
-	% if true then PerceptsInit.
-	
 	forall percept(base(IPS, Minerals, Gas, X, Y, RegionId)) do
 		insert(base(IPS, Minerals, Gas, X, Y, RegionId)).
 		
@@ -27,5 +24,6 @@ module MapAgentInit {
 	if percept(resources(Minerals, Gas, CurrentSupply, TotalSupply)) then
 		insert(resources(Minerals, Gas, CurrentSupply, TotalSupply)).
 
+	% Perform the MineralGasPercepts
 	if true then MineralGasPercepts.
 }

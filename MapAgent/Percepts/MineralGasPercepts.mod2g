@@ -8,18 +8,18 @@ module MineralGasPercepts {
 		if bel(mineralPatches(RegionId, OldAmount), NewAmount is OldAmount - 1) then
 			delete(mineralPatches(RegionId, OldAmount)) +
 			insert(mineralPatches(RegionId, NewAmount)).
-			
+
 		if bel(mineralFieldWorkers(Id, X, Y, RegionId, N)) then
 			delete(mineralField(Id, X, Y, RegionId)) +
 			delete(mineralFieldWorkers(Id, X, Y, RegionId, N)).
 	}
-	
+
 	% Store new mineralFields
 	forall percept(mineralField(Id, Amount, X, Y, RegionId), Amount > 0), not(bel(mineralField(Id, X, Y, RegionId))) do {
 		if bel(mineralPatches(RegionId, OldAmount), NewAmount is OldAmount + 1) then
 			delete(mineralPatches(RegionId, OldAmount)) +
 			insert(mineralPatches(RegionId, NewAmount)).
-			
+
 		if true then 
 			insert(mineralField(Id, X, Y, RegionId)) +
 			insert(mineralFieldWorkers(Id, X, Y, RegionId, 2)).

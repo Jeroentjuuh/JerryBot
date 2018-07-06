@@ -2,10 +2,12 @@ use "StarCraft.Environment.jar" as environment with
 	map="sscai\(2)Destination.scx",
 %	map="sscai\(2)Heartbreak Ridge.scx",
 %	map="sscai\(2)Benzene.scx",
+%	map="ZergRush.scm",
+%	game_type="USE_MAP_SETTINGS",
 	own_race="Protoss",
 	starcraft_location="C:\Starcraft",
 	auto_menu="Single_Player",
-	enemy_race="terran",
+	enemy_race="zerg",
 	debug="true", % launch the development tool
 	draw_mapinfo="false",
 	draw_unitinfo="false",

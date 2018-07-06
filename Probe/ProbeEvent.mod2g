@@ -1,17 +1,19 @@
 use Probe as knowledge.
+use ProbeActions.
 order = linearall.
 
 module ProbeEvent {
+	% When we get sent a task
 	if (_).sent!(task(Task, Target)) then {
 		% Drop existing task
 		if goal(task(OldTask, OldTarget)) then
 			drop(task(OldTask, OldTarget)).
-			
-		if true then adopt(task(Task, Target)).
-	}
 
-	if percept(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)),
-			bel(order(OldPrimary, OldTargetUnit, OldTargetX, OldTargetY, OldTargetRegion, OldSecondary))
-		then delete(order(OldPrimary, OldTargetUnit, OldTargetX, OldTargetY, OldTargetRegion, OldSecondary))
-			+ insert(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)).
+		% Always adopt the task
+		if true then adopt(task(Task, Target)).
+
+		% For our initial starting with gathering
+		if bel(Task == 'gatherMinerals') then
+			gather(Target).
+	}
 }

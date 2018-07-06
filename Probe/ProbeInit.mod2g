@@ -1,10 +1,8 @@
 use Probe as knowledge.
 
 module ProbeInit {
+	% We exist so we send the mapAgent which agent we are and ask him for initial work
 	if percept(self(Id, _), status(_, _, _, _, _, _, _, RegionId))
 		then (mapagent).send:(agent(Id))
 			+ (mapagent).send?(initialWork(Id, RegionId)).
-	
-	if percept(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary))
-		then insert(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)).
 }
