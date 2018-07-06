@@ -1,10 +1,7 @@
-use "../Shared" as knowledge.
-use ProtossProbe as knowledge.
-use "../Modules/PerceptsEvent".
-
+use Probe as knowledge.
 order = linearall.
 
-module ProtossProbeEvent {
+module ProbeEvent {
 	if (_).sent!(task(Task, Target)) then {
 		% Drop existing task
 		if goal(task(OldTask, OldTarget)) then

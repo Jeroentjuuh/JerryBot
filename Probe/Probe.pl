@@ -1,4 +1,6 @@
-:-dynamic task/2.
+:-dynamic
+	task/2,
+	order/6.
 
 isMineralOrder('MoveToMinerals').
 isMineralOrder('WaitForMinerals').
