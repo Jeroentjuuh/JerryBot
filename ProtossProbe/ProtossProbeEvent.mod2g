@@ -12,18 +12,9 @@ module ProtossProbeEvent {
 			
 		if true then adopt(task(Task, Target)).
 	}
-	
+
 	if percept(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)),
 			bel(order(OldPrimary, OldTargetUnit, OldTargetX, OldTargetY, OldTargetRegion, OldSecondary))
 		then delete(order(OldPrimary, OldTargetUnit, OldTargetX, OldTargetY, OldTargetRegion, OldSecondary))
 			+ insert(order(Primary, TargetUnit, TargetX, TargetY, TargetRegion, Secondary)).
-	/*
-	% Send work request (start-up failsafe)
-	if bel(workRequest(Id, RegionId)), percept(self(Id, _)) then {
-		if true then
-			(mapagent).send:(agent(Id)) +
-			(mapagent).send?(workRequest(Id, RegionId)).
-		if percept(gameframe(Frame), Frame > 1) then
-			delete(workRequest(Id, RegionId)).
-	}*/
 }
